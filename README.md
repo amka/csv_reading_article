@@ -4,9 +4,9 @@ A sample command-line application explaining how to read CSV files in Dart progr
 
 Here are few branches describing different ways of reading CSV files in Dart:
 
-- main - simple reading in sync mode
-- async_read - simple reading all lines but in async mode
-- async_read_stream - more complex reading by using stream and stream transformers
+- `main` - simple reading in sync mode
+- `async_read` - simple reading all lines but in async mode
+- `async_read_stream` - more complex reading by using stream and stream transformers
 
 
 ### Example call
