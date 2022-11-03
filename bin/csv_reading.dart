@@ -10,5 +10,5 @@ void main(List<String> arguments) {
   final path = arguments[0];
 
   final lines = csv_reading.readCsvSync(path);
-  print(lines);
+  lines?.forEach((element) => print(element));
 }
