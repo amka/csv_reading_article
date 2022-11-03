@@ -9,6 +9,7 @@ void main(List<String> arguments) async {
   }
   final path = arguments[0];
 
-  final lines = await csv_reading.readCsv(path);
-  print(lines);
+  await for (final line in csv_reading.streamCsv(path)) {
+    print(line);
+  }
 }

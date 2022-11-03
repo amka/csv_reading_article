@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 List<String>? readCsvSync(String path) {
@@ -23,4 +24,19 @@ Future<List<String>?> readCsv(String path) async {
 
   // Read lines sync and return them.
   return await File(path).readAsLines();
+}
+
+Stream<List<String>?> streamCsv(String path) async* {
+  // Create `File` object
+  final file = File(path);
+  // Check if file is ready to be read :)
+  if (!await file.exists()) {
+    return;
+  }
+
+  final stream =
+      file.openRead().transform(utf8.decoder).transform(LineSplitter());
+  await for (String row in stream) {
+    yield row.split(',');
+  }
 }
