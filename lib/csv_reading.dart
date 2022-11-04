@@ -26,7 +26,8 @@ Future<List<String>?> readCsv(String path) async {
   return await File(path).readAsLines();
 }
 
-Stream<List<String>?> streamCsv(String path) async* {
+Stream<List<dynamic>> streamCsv(String path,
+    {String delimeter = ',', String quotechar = '\''}) async* {
   // Create `File` object
   final file = File(path);
   // Check if file is ready to be read :)
@@ -37,6 +38,23 @@ Stream<List<String>?> streamCsv(String path) async* {
   final stream =
       file.openRead().transform(utf8.decoder).transform(LineSplitter());
   await for (String row in stream) {
-    yield row.split(',');
+    final items = row.split(delimeter);
+
+    final values = items.map((element) {
+      element = element.trim();
+
+      var dval = int.tryParse(element);
+      if (dval != null) return dval;
+
+      var ival = double.tryParse(element);
+      if (ival != null) return ival;
+
+      if (element.startsWith(quotechar) && element.endsWith(quotechar)) {
+        element = element.substring(1, element.length - 1);
+      }
+      return element;
+    });
+
+    yield values.toList();
   }
 }

@@ -9,7 +9,13 @@ void main(List<String> arguments) async {
   }
   final path = arguments[0];
 
-  await for (final line in csv_reading.streamCsv(path)) {
-    print(line);
+  await for (final line in csv_reading.streamCsv(path, delimeter: ',')) {
+    // Format the output
+    var row = [];
+    for (final item in line) {
+      row.add(
+          '[${item.runtimeType.toString().padRight(6)}] ${item.toString().padRight(15)}');
+    }
+    print(row.join('|'));
   }
 }
